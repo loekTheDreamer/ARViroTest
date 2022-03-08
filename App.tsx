@@ -1,46 +1,65 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * Generated with the TypeScript template
- * https://github.com/react-native-community/react-native-template-typescript
- *
- * @format
- */
-
-import React from 'react';
+import React, {useState} from 'react';
+import {StyleSheet} from 'react-native';
 import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+  ViroScene,
+  ViroARScene,
+  ViroText,
+  ViroConstants,
+  ViroARSceneNavigator,
+  Viro3DObject,
+  ViroAmbientLight,
+  ViroARPlane,
+  ViroBox,
+  ViroImage,
+  //@ts-ignore
+} from '@viro-community/react-viro';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+import viroArPlane from './src/viroArPlane';
+import viroImageRecognitionSimple from './src/viroImageRecognitionSimple';
+import viroKittenDemo from './src/viroKittenDemo';
 
-import HelloWorldSceneAR from './src/example/HelloWorldSceneAR';
-
-const App = () => {
+const ThreeDimentionalOnly = () => {
+  const [text, setText] = useState('Initializing AR...');
+  console.log('fly fly');
+  function onInitialized(state: any, reason: any) {
+    console.log('guncelleme', state, reason);
+    if (state === ViroConstants.TRACKING_NORMAL) {
+      setText('Hello World!');
+    } else if (state === ViroConstants.TRACKING_NONE) {
+      // Handle loss of tracking
+    }
+  }
   return (
-    <SafeAreaView style={styles.container}>
-      <HelloWorldSceneAR />
-    </SafeAreaView>
+    <ViroScene>
+      <ViroText
+        text={'text'}
+        scale={[0.5, 0.5, 0.5]}
+        position={[0, 0, -1]}
+        style={styles.helloWorldTextStyle}
+      />
+    </ViroScene>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
+export default () => {
+  return (
+    <ViroARSceneNavigator
+      autofocus={true}
+      initialScene={{
+        scene: viroKittenDemo,
+      }}
+      style={styles.f1}
+    />
+  );
+};
+
+var styles = StyleSheet.create({
+  f1: {flex: 1},
+  helloWorldTextStyle: {
+    fontFamily: 'Arial',
+    fontSize: 30,
+    color: '#ffffff',
+    textAlignVertical: 'center',
+    textAlign: 'center',
   },
 });
-
-export default App;
